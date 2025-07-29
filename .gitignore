@@ -16,3 +16,5 @@ venv/
 
 # Specific to your project
 db.sqlite3
+
+migrations/
