@@ -22,5 +22,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/light/', views.receive_light_data, name='receive_light_data'),
     path('api/status/', views.get_current_status, name='get_status'),
+    path('api/dashboard-data/', views.dashboard_data, name='dashboard_data'),
     path('', views.dashboard, name='dashboard'),
 ]
