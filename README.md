@@ -12,7 +12,7 @@ x1 Bread Board
 
 x1 Fotoresistore
 
-Resistenze (x1 220 Ohm, x1 10KOhm)
+Resistenze (x1 220 Ohm, x1 10 KOhm)
 
 x1 LED
 
@@ -37,7 +37,3 @@ Log storico degli stati
 RAPPRESENTAZIONE DEL CIRCUITO
 
 ![Circuito](fotoREADME.jpg)
-
-📄 Licenza
-
-Questo progetto è distribuito sotto licenza MIT - vedi il file LICENSE per i dettagli.
