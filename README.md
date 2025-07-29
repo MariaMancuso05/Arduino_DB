@@ -16,7 +16,7 @@ Resistenze (x1 220 Ohm, x1 10 KOhm)
 
 x1 LED
 
-x1 Modulo Wi-Fi ESP32 
+x1 ESP32 con Modulo Wi-Fi
 
 x1 cavo USB-C
 
@@ -34,6 +34,11 @@ Personalizzazione della soglia
 
 Log storico degli stati
 
-RAPPRESENTAZIONE DEL CIRCUITO
+## RAPPRESENTAZIONE DEL CIRCUITO
 
 ![Circuito](fotoREADME.jpg)
+
+## SFIDE DELLO SVILUPPO
+
+Di tutti i contatti di output presenti sull'ESP32, solamente le porte dalla 32 alla 37 supportano l'analogico con il WiFI
+
