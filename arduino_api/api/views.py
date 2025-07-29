@@ -13,12 +13,10 @@ def receive_light_data(request):
             
             # Estrai stato dal messaggio
             stato = data.get('stato')  # 'accesa' o 'spenta'
-            valore_sensore = data.get('valore', None)  # Valore opzionale del fotoresistore
             
             # Crea nuovo evento
             evento = LightEvent.objects.create(
                 stato=stato,
-                valore_sensore=valore_sensore
             )
             
             # Aggiorna stato corrente (opzionale)

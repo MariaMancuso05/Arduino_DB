@@ -3,7 +3,7 @@ from .models import LightEvent, LightStatus
 
 @admin.register(LightEvent)
 class LightEventAdmin(admin.ModelAdmin):
-    list_display = ['stato', 'timestamp', 'valore_sensore']
+    list_display = ['stato', 'timestamp']
     list_filter = ['stato', 'timestamp']
     date_hierarchy = 'timestamp'
     ordering = ['-timestamp']

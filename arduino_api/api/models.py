@@ -8,7 +8,6 @@ class LightEvent(models.Model):
     
     stato = models.CharField(max_length=10, choices=STATO_CHOICES)
     timestamp = models.DateTimeField(auto_now_add=True)
-    valore_sensore = models.IntegerField(null=True, blank=True)  # Valore opzionale del fotoresistore
     
     class Meta:
         ordering = ['-timestamp']

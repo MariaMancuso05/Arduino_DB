@@ -33,17 +33,15 @@
         <tr>
             <th>Stato</th>
             <th>Data/Ora</th>
-            <th>Valore Sensore</th>
         </tr>
         {% for evento in eventi %}
         <tr>
             <td>{{ evento.get_stato_display }}</td>
             <td>{{ evento.timestamp|date:"d/m/Y H:i:s" }}</td>
-            <td>{{ evento.valore_sensore|default:"-" }}</td>
         </tr>
         {% empty %}
         <tr>
-            <td colspan="3">Nessun evento registrato</td>
+            <td colspan="2">Nessun evento registrato</td>
         </tr>
         {% endfor %}
     </table>
