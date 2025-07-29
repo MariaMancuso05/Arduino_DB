@@ -1,6 +1,6 @@
 🌞🌙 Rilevamento Giorno/Notte con Arduino e Sensore Fotosensibile
 
-Questo progetto ha come obiettivo la realizzazione di un dispositivo basato su Arduino capace di rilevare se è giorno o notte, grazie a un sensore fotosensibile (LDR o simili).
+Questo progetto ha come obiettivo la realizzazione di un dispositivo basato su Arduino capace di rilevare se è giorno o notte, grazie a un sensore fotosensibile.
 
 🎯 Obiettivo
 
@@ -20,7 +20,7 @@ Resistenze
 
 Modulo Wi-Fi (es. ESP8266 o simile)
 
-Smartphone con app per ricevere notifiche (Telegram, Blynk, IFTTT ecc.)
+Smartphone con app per ricevere notifiche
 
 🔔 Funzionamento
 
@@ -38,9 +38,9 @@ Interfaccia mobile per configurazione
 
 Log storico degli stati
 
-📸 Demo / Foto (facoltativo)
+📸 Demo / Foto 
 
-Aggiungi qui foto del circuito o uno schema.
+![Circuito](fotoREADME.jpg)
 
 📄 Licenza
 
