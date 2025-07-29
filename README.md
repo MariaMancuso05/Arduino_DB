@@ -36,7 +36,7 @@ Log storico degli stati
 
 ## RAPPRESENTAZIONE DEL CIRCUITO
 
-![Circuito](fotoREADME.jpg)
+![Circuito](Circuito.jpg)
 
 ## SFIDE DELLO SVILUPPO
 
