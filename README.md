@@ -40,7 +40,7 @@ Log storico degli stati
 
 📸 Demo / Foto (facoltativo)
 
-![Circuito](FotoREADME.jpg)
+![Circuito](fotoREADME.jpg)
 
 📄 Licenza
 
