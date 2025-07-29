@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard Luce</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .status { padding: 20px; margin: 20px 0; border-radius: 5px; }
+        .on { background-color: #ffffcc; }
+        .off { background-color: #e0e0e0; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+    <h1>Dashboard Controllo Luce</h1>
+    
+    {% if stato_corrente %}
+    <div class="status {% if stato_corrente.is_on %}on{% else %}off{% endif %}">
+        <h2>Stato Attuale: {% if stato_corrente.is_on %}💡 ACCESA{% else %}⚫ SPENTA{% endif %}</h2>
+        <p>Ultimo cambio: {{ stato_corrente.ultimo_cambio|date:"d/m/Y H:i:s" }}</p>
+    </div>
+    {% endif %}
+    
+    <div>
+        <h3>Statistiche</h3>
+        <p>Totale accensioni: {{ totale_accensioni }}</p>
+        <p>Totale spegnimenti: {{ totale_spegnimenti }}</p>
+    </div>
+    
+    <h3>Ultimi Eventi</h3>
+    <table>
+        <tr>
+            <th>Stato</th>
+            <th>Data/Ora</th>
+            <th>Valore Sensore</th>
+        </tr>
+        {% for evento in eventi %}
+        <tr>
+            <td>{{ evento.get_stato_display }}</td>
+            <td>{{ evento.timestamp|date:"d/m/Y H:i:s" }}</td>
+            <td>{{ evento.valore_sensore|default:"-" }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="3">Nessun evento registrato</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
