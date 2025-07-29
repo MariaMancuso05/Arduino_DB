@@ -40,7 +40,7 @@ Log storico degli stati
 
 📸 Demo / Foto (facoltativo)
 
-Aggiungi qui foto del circuito o uno schema.
+![Circuito](fotobella.jpg)
 
 📄 Licenza
 
