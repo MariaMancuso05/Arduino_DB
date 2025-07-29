@@ -11,3 +11,8 @@ venv/
 
 # Specific to your project
 *.sqlite
+
+*.log
+
+# Specific to your project
+db.sqlite3
