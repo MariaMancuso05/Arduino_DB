@@ -10,40 +10,64 @@
         table { border-collapse: collapse; width: 100%; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
         th { background-color: #f2f2f2; }
+        .live-indicator { color: #00ff00; animation: blink 1s infinite; }
+        @keyframes blink { 50% { opacity: 0; } }
     </style>
 </head>
 <body>
-    <h1>Dashboard Controllo Luce</h1>
+    <h1>Dashboard Controllo Luce <span class="live-indicator">● LIVE</span></h1>
     
-    {% if stato_corrente %}
-    <div class="status {% if stato_corrente.is_on %}on{% else %}off{% endif %}">
-        <h2>Stato Attuale: {% if stato_corrente.is_on %}💡 ACCESA{% else %}⚫ SPENTA{% endif %}</h2>
-        <p>Ultimo cambio: {{ stato_corrente.ultimo_cambio|date:"d/m/Y H:i:s" }}</p>
+    <div id="status-container">
+        <!-- Questo verrà aggiornato via AJAX -->
     </div>
-    {% endif %}
     
-    <div>
-        <h3>Statistiche</h3>
-        <p>Totale accensioni: {{ totale_accensioni }}</p>
-        <p>Totale spegnimenti: {{ totale_spegnimenti }}</p>
+    <div id="stats-container">
+        <!-- Statistiche -->
     </div>
     
     <h3>Ultimi Eventi</h3>
-    <table>
-        <tr>
-            <th>Stato</th>
-            <th>Data/Ora</th>
-        </tr>
-        {% for evento in eventi %}
-        <tr>
-            <td>{{ evento.get_stato_display }}</td>
-            <td>{{ evento.timestamp|date:"d/m/Y H:i:s" }}</td>
-        </tr>
-        {% empty %}
-        <tr>
-            <td colspan="2">Nessun evento registrato</td>
-        </tr>
-        {% endfor %}
-    </table>
+    <div id="events-container">
+        <!-- Tabella eventi -->
+    </div>
+
+    <script>
+        function updateDashboard() {
+            fetch('/api/dashboard-data/')
+                .then(response => response.json())
+                .then(data => {
+                    // Aggiorna stato
+                    document.getElementById('status-container').innerHTML = `
+                        <div class="status ${data.is_on ? 'on' : 'off'}">
+                            <h2>Stato Attuale: ${data.is_on ? '💡 ACCESA' : '⚫ SPENTA'}</h2>
+                            <p>Ultimo cambio: ${data.ultimo_cambio}</p>
+                        </div>
+                    `;
+                    
+                    // Aggiorna statistiche
+                    document.getElementById('stats-container').innerHTML = `
+                        <h3>Statistiche</h3>
+                        <p>Totale accensioni: ${data.totale_accensioni}</p>
+                        <p>Totale spegnimenti: ${data.totale_spegnimenti}</p>
+                    `;
+                    
+                    // Aggiorna eventi
+                    let eventsHtml = '<table><tr><th>Stato</th><th>Data/Ora</th></tr>';
+                    data.eventi.forEach(evento => {
+                        eventsHtml += `
+                            <tr>
+                                <td>${evento.stato}</td>
+                                <td>${evento.timestamp}</td>
+                            </tr>
+                        `;
+                    });
+                    eventsHtml += '</table>';
+                    document.getElementById('events-container').innerHTML = eventsHtml;
+                });
+        }
+        
+        // Aggiorna ogni 2 secondi
+        updateDashboard();
+        setInterval(updateDashboard, 50);
+    </script>
 </body>
 </html>
