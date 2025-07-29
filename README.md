@@ -1,47 +1,44 @@
-🌞🌙 Rilevamento Giorno/Notte con Arduino e Sensore Fotosensibile
+# SENSORE DI OMBRE CON ARDUINO
 
-Questo progetto ha come obiettivo la realizzazione di un dispositivo basato su Arduino capace di rilevare se è giorno o notte, grazie a un sensore fotosensibile.
+Questo progetto ha come obiettivo la realizzazione di un dispositivo Arduino capace di rilevare la presenza o l'assenza di luce, registrando quindi i risultati su un server/database Django in tempo reale.
 
-🎯 Obiettivo
+## OBIETTIVO
 
-Utilizzare un sensore di luce per monitorare la luminosità ambientale.
+Utilizzare un sensore fotosensibile per monitorare la luminosità ambientale e registrare la presenza o l'assanza di luce a seconda di una soglia predefinita.
 
-Determinare automaticamente se è giorno o notte in base a una soglia di luce predefinita.
+## COMPONENTI UTILIZZATI
 
-Inviare una notifica al telefono ogni volta che lo stato cambia (da giorno a notte o viceversa).
+x1 Bread Board
 
-🛠️ Componenti Utilizzati
+x1 Fotoresistore
 
-Arduino Uno (o compatibile)
+Resistenze (x1 220 Ohm, x1 10 KOhm)
 
-Sensore di luce (LDR)
+x1 LED
 
-Resistenze
+x1 ESP32 con Modulo Wi-Fi
 
-Modulo Wi-Fi (es. ESP8266 o simile)
+x1 cavo USB-C
 
-Smartphone con app per ricevere notifiche
-
-🔔 Funzionamento
+## FUNZIONAMENTO
 
 Il sensore rileva costantemente il livello di luce ambientale.
 
-Se il valore scende o supera una certa soglia, viene determinato lo stato giorno o notte.
+Se il valore scende o supera una certa soglia, viene determinato lo stato luce o ombra.
 
-Il sistema invia una notifica al telefono informando del cambiamento.
+Il sistema invia una notifica al server informando del cambiamento e il server archivia il risultato con relative data e ora.
 
-🚀 Possibili Sviluppi Futuri
+## POSSIBILI SVILUPPI FUTURI
 
-Personalizzazione delle soglie giorno/notte
-
-Interfaccia mobile per configurazione
+Personalizzazione della soglia
 
 Log storico degli stati
 
-📸 Demo / Foto 
+## RAPPRESENTAZIONE DEL CIRCUITO
 
 ![Circuito](fotoREADME.jpg)
 
-📄 Licenza
+## SFIDE DELLO SVILUPPO
 
-Questo progetto è distribuito sotto licenza MIT - vedi il file LICENSE per i dettagli.
+Di tutti i contatti di output presenti sull'ESP32, solamente le porte dalla 32 alla 37 supportano l'analogico con il WiFI
+
