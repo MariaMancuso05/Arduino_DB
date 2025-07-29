@@ -8,17 +8,17 @@ Utilizzare un sensore fotosensibile per monitorare la luminosità ambientale e r
 
 ## COMPONENTI UTILIZZATI
 
-x1 Bread Board
+- x1 Bread Board
 
-x1 Fotoresistore
+- x1 Fotoresistore
 
-Resistenze (x1 220 Ohm, x1 10 KOhm)
+- Resistenze (x1 220 Ohm, x1 10 KOhm)
 
-x1 LED
+- x1 LED
 
-x1 ESP32 con Modulo Wi-Fi
+- x1 ESP32 con Modulo Wi-Fi
 
-x1 cavo USB-C
+- x1 cavo USB-C
 
 ## FUNZIONAMENTO
 
