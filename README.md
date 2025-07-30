@@ -51,7 +51,7 @@ Il dispositivo invia una notifica al server e il server la archivia con relative
 
 Qualora si volesse osservare i dati direttamente dall'arduino invece di usare il database, per garantire maggiore sicurezza le informazioni sono visibili solo dopo aver digitato una password tramite terminale.
 
-Contro le tecniche di brute force, in caso in cui fosse digitata per tre volte una password errata il dispositivo emetterà un suono d'allarme e bloccherà ogni successivo tentativo di login.
+Contro le tecniche di brute force, qualora fosse digitata per tre volte una password errata, il dispositivo emetterà un suono d'allarme e bloccherà ogni successivo tentativo di login.
 
 Per sbloccare il processo di login, sarà necessario resettarlo manualmente girando la rotellina presente sul dispositivo.
 
