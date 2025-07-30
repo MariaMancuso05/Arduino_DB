@@ -45,7 +45,7 @@ Storico dei dati con visualizzazione tramite grafici.
 
 ## RAPPRESENTAZIONE DEL CIRCUITO
 
-![Circuito](Circuito.jpg)
+![Circuito](circuit.png)
 
 ## GUIDA AL DEBUGGING
 
