@@ -1,10 +1,15 @@
 # SENSORE DI OMBRE CON ARDUINO
 
-Questo progetto ha come obiettivo la realizzazione di un dispositivo Arduino capace di rilevare la presenza o l'assenza di luce, registrando quindi i risultati su un server/database Django in tempo reale.
-
 ## OBIETTIVO
 
-Utilizzare un sensore fotosensibile per monitorare la luminosità ambientale e registrare la presenza o l'assanza di luce a seconda di una soglia predefinita.
+Questo progetto ha come obiettivo la realizzazione di un dispositivo Arduino capace di rilevare la presenza o l'assenza di luce.
+
+La sensibilità dello strumento potrà essere customizzata dall'utente, in base alle sue necessità.
+
+Insieme alle specifiche del dispositivo, questo progetto comprende un server Django su cui l'arduino invierà **live** i cambiamenti di stato luce/ombra. Il server registrerà sul database la data e ora in cui è avvenuto ogni cambiamento di stato
+
+Il server è provvisto di un UI user friendly.
+
 
 ## COMPONENTI UTILIZZATI
 
@@ -12,7 +17,9 @@ Utilizzare un sensore fotosensibile per monitorare la luminosità ambientale e r
 
 - x1 Fotoresistore
 
-- Resistenze (x1 220 Ohm, x1 10 KOhm)
+- x1 Resistenza 220 Ohm
+  
+- x1 Resistenza 10 KOhm
 
 - x1 LED
 
@@ -22,17 +29,19 @@ Utilizzare un sensore fotosensibile per monitorare la luminosità ambientale e r
 
 ## FUNZIONAMENTO
 
-Il sensore rileva costantemente il livello di luce ambientale.
+Quando acceso, il sensore rileva continuamente il livello di luce ambientale.
 
-Se il valore scende o supera una certa soglia, viene determinato lo stato luce o ombra.
+Se il valore è inferiore o supera la soglia impostata dall'utente l'arduino invia una segnale di cambiamento di stato, da luce a ombra o viceversa.
 
-Il sistema invia una notifica al server informando del cambiamento e il server archivia il risultato con relative data e ora.
+Il dispositivo invia una notifica al server e il server la archivia con relative data e ora.
 
 ## POSSIBILI SVILUPPI FUTURI
 
-Personalizzazione della soglia
+Personalizzazione dinamica della soglia tramite interfaccia web o API.
 
-Log storico degli stati
+Invio notifiche su dispositivi personali (tramite email, Telegram, ecc.).
+
+Storico dei dati con visualizzazione tramite grafici.
 
 ## RAPPRESENTAZIONE DEL CIRCUITO
 
@@ -40,7 +49,14 @@ Log storico degli stati
 
 ## SFIDE DELLO SVILUPPO
 
-Di tutti i contatti di output presenti sull'ESP32, solamente le porte dalla 32 alla 37 supportano l'analogico con il WiFI
+Nonostante tutti contatti di output presenti sull'ESP32 suppotino la tecnologia analogica, solamente le porte dalla 32 alla 37 supportano l'analogico con il WiFI.
 
-Per permettere la comunicazione tra l'arduino e il server Django è necessario disattivare il Firewall della macchina su cui si trova il server o, preferibilmente, impostare una regola specifica
+Per permettere la comunicazione tra l'arduino e il server Django sarà disattivare il Firewall della macchina su cui si trova il server o, preferibilmente, impostare una regola specifica.
 
+## REQUISITI
+
+Python + Django installati su server locale o cloud
+
+Libreria Wi-Fi per ESP32 (inclusa nell'IDE Arduino)
+
+Conoscenze base di circuiti elettronici e programmazione embedded
