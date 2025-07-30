@@ -76,7 +76,7 @@ Nonostante tutti contatti di output presenti sull'ESP32 supportino la tecnologia
 
 Per permettere la comunicazione tra l'arduino e il server Django è necessario disattivare il Firewall della macchina su cui si trova il server o, preferibilmente, impostare una regola specifica.
 
-## REQUISITI
+## PREREQUISITI
 
 Python + Django installati su server locale o cloud
 
