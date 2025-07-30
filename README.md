@@ -42,3 +42,5 @@ Log storico degli stati
 
 Di tutti i contatti di output presenti sull'ESP32, solamente le porte dalla 32 alla 37 supportano l'analogico con il WiFI
 
+Per permettere la comunicazione tra l'arduino e il server Django è necessario disattivare il Firewall della macchina su cui si trova il server o, preferibilmente, impostare una regola specifica
+
