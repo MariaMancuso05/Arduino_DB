@@ -6,9 +6,13 @@ Questo progetto ha come obiettivo la realizzazione di un dispositivo Arduino cap
 
 La sensibilità dello strumento potrà essere customizzata dall'utente in base alle sue necessità, così come la password di accesso.
 
-Insieme alle specifiche del dispositivo, questo progetto comprende un server Django su cui l'arduino invierà **live** i cambiamenti di stato luce/ombra. Il server registrerà sul database la data e ora in cui è avvenuto ogni cambiamento di stato
+Insieme alle specifiche del dispositivo, questo progetto comprende un server Django su cui l'arduino invierà **live** i cambiamenti di stato luce/ombra. Il server registra sul database la data e ora in cui è avvenuto ogni cambiamento di stato
 
 Il server è provvisto di un UI user friendly.
+
+La sicurezza dell'arduino è rinforzata dalla necessità di digitare una password tramite terminale prima di ottenere accesso ai dati raccolti dallo strumento, anche mentre esso è in funzione.
+
+E' inoltre presente un rinforzo aggiuntivo contro le strategie di brute force.
 
 
 ## COMPONENTI UTILIZZATI
@@ -47,9 +51,12 @@ Se il valore è inferiore o supera la soglia impostata dall'utente l'arduino inv
 
 Il dispositivo invia una notifica al server e il server la archivia con relative data e ora.
 
-Attraverso il serial monitor sarà possibile, inserendo la password corretta, avere informazioni riguardo lo stato attuale del LED.
+Qualora si volesse osservare i dati direttamente dall'arduino invece di usare il database, per garantire maggiore sicurezza le informazioni sono visibili solo dopo aver digitato una password tramite terminale.
 
-In caso si facessero 3 errori consecutivi cercando di inserire la password, il buzzer emetterà un suono e non sarà possibile inserire password fino a che non verrà fatto uno sblocco manuale ruotando il potenziometro.
+Contro le tecniche di brute force, qualora fosse digitata per tre volte una password errata, il dispositivo emetterà un suono d'allarme e bloccherà ogni successivo tentativo di login.
+
+Per sbloccare il processo di login, sarà necessario resettarlo manualmente girando la rotellina presente sul dispositivo.
+
 
 ## POSSIBILI SVILUPPI FUTURI
 
@@ -76,3 +83,5 @@ Python + Django installati su server locale o cloud
 Libreria Wi-Fi per ESP32 (inclusa nell'IDE Arduino)
 
 Conoscenze base di circuiti elettronici e programmazione embedded
+
+## GUIDA ALL'INSTALLAZIONE
