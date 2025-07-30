@@ -27,7 +27,7 @@ Il server è provvisto di un UI user friendly.
 
 - x2 Resistore 220 Ohm
   
-- x2 Resistore 10 KOhm
+- x2 Resistore 10k Ohm
 
 - x1 Resistore 1k Ohm
 
