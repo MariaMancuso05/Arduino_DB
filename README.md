@@ -13,19 +13,29 @@ Il server è provvisto di un UI user friendly.
 
 ## COMPONENTI UTILIZZATI
 
-- x1 Bread Board
+- x1 Bread board
+
+- x1 ESP32 con modulo Wi-Fi
+
+- x1 Buzzer
 
 - x1 Fotoresistore
 
-- x1 Resistenza 220 Ohm
-  
-- x1 Resistenza 10 KOhm
+- x1 Transistor
 
 - x1 LED
 
-- x1 ESP32 con Modulo Wi-Fi
+- x2 Resistore 220 Ohm
+  
+- x2 Resistore 10 KOhm
+
+- x1 Resistore 1k Ohm
+
+- x10 cavetti
 
 - x1 cavo USB-C
+
+- Fonti (3.3V, 5V)
 
 ## FUNZIONAMENTO
 
