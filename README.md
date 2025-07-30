@@ -2,9 +2,9 @@
 
 ## OBIETTIVO
 
-Questo progetto ha come obiettivo la realizzazione di un dispositivo Arduino capace di rilevare la presenza o l'assenza di luce.
+Questo progetto ha come obiettivo la realizzazione di un dispositivo Arduino capace di rilevare la presenza o l'assenza di luce e gestire la richiesta delle informazioni da parte dell'utente con una password.
 
-La sensibilità dello strumento potrà essere customizzata dall'utente, in base alle sue necessità.
+La sensibilità dello strumento potrà essere customizzata dall'utente in base alle sue necessità, così come la password di accesso.
 
 Insieme alle specifiche del dispositivo, questo progetto comprende un server Django su cui l'arduino invierà **live** i cambiamenti di stato luce/ombra. Il server registrerà sul database la data e ora in cui è avvenuto ogni cambiamento di stato
 
@@ -16,6 +16,8 @@ Il server è provvisto di un UI user friendly.
 - x1 Bread board
 
 - x1 ESP32 con modulo Wi-Fi
+
+- x1 Potenziometro
 
 - x1 Buzzer
 
@@ -44,6 +46,10 @@ Quando acceso, il sensore rileva continuamente il livello di luce ambientale.
 Se il valore è inferiore o supera la soglia impostata dall'utente l'arduino invia una segnale di cambiamento di stato, da luce a ombra o viceversa.
 
 Il dispositivo invia una notifica al server e il server la archivia con relative data e ora.
+
+Attraverso il serial monitor sarà possibile, inserendo la password corretta, avere informazioni riguardo lo stato attuale del LED.
+
+In caso si facessero 3 errori consecutivi cercando di inserire la password, il buzzer emetterà un suono e non sarà possibile inserire password fino a che non verrà fatto uno sblocco manuale ruotando il potenziometro.
 
 ## POSSIBILI SVILUPPI FUTURI
 
