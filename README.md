@@ -24,9 +24,9 @@ Il progetto integra **componenti elettronici** con una **piattaforma web** per l
 
 - x2 Resistore 220 Ohm
   
-- x2 Resistore 10k Ohm
+- x1 Resistore 10k Ohm
 
-- x1 Resistore 1k Ohm
+- x2 Resistore 1k Ohm
 
 - x10 cavetti
 
@@ -80,7 +80,7 @@ Conoscenze base di circuiti elettronici e programmazione embedded
 
 ## RAPPRESENTAZIONE DEL CIRCUITO
 
-![Circuito](circuit.png)
+![Circuito](circuit1.png)
 
 ## GUIDA AL DEBUGGING
 
