@@ -14,7 +14,7 @@ Il progetto integra **componenti elettronici** con una **piattaforma web** per l
 
 - x1 Potenziometro
 
-- x1 Buzzer
+- x1 Buzzer attivo
 
 - x1 Fotoresistore
 
