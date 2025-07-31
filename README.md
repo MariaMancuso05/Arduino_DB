@@ -2,20 +2,11 @@
 
 ## OBIETTIVO
 
-Questo progetto ha come obiettivo la realizzazione di un dispositivo Arduino capace di rilevare la presenza o l'assenza di luce e gestire la richiesta delle informazioni da parte dell'utente con una password.
+Realizzare un dispositivo in grado di rilevare **variazioni** nella **luminosità ambientale** e inviare eventi **in tempo reale** a un server Django, con autenticazione locale e protezione contro tentativi di accesso **non autorizzati**.
 
-La sensibilità dello strumento potrà essere customizzata dall'utente in base alle sue necessità, così come la password di accesso.
+Il progetto integra **componenti elettronici** con una **piattaforma web** per la visualizzazione degli eventi registrati. L’utente può **personalizzare** la soglia di sensibilità alla luce e la password di accesso.
 
-Insieme alle specifiche del dispositivo, questo progetto comprende un server Django su cui l'arduino invierà **live** i cambiamenti di stato luce/ombra. Il server registra sul database la data e ora in cui è avvenuto ogni cambiamento di stato
-
-Il server è provvisto di un UI user friendly.
-
-La sicurezza dell'arduino è rinforzata dalla necessità di digitare una password tramite terminale prima di ottenere accesso ai dati raccolti dallo strumento, anche mentre esso è in funzione.
-
-E' inoltre presente un rinforzo aggiuntivo contro le strategie di brute force.
-
-
-## COMPONENTI UTILIZZATI
+##COMPONENTI UTILIZZATI
 
 - x1 Bread board
 
@@ -43,38 +34,33 @@ E' inoltre presente un rinforzo aggiuntivo contro le strategie di brute force.
 
 - Fonti (3.3V, 5V)
 
+
 ## FUNZIONAMENTO
 
-Quando acceso, il sensore rileva continuamente il livello di luce ambientale.
+Il dispositivo è composto da un **ESP32**, un fotoresistore (LDR), un LED, un potenziometro e un buzzer. Il sensore LDR rileva costantemente il livello di luce ambientale. Quando il valore misurato scende al di sotto di una soglia predefinita (configurata direttamente nel codice), il sistema considera che ci sia ombra o bassa luminosità.
 
-Se il valore è inferiore o supera la soglia impostata dall'utente l'arduino invia una segnale di cambiamento di stato, da luce a ombra o viceversa.
+In tal caso:
 
-Il dispositivo invia una notifica al server e il server la archivia con relative data e ora.
+Il LED si accende per indicare la **presenza di buio**.
 
-Qualora si volesse osservare i dati direttamente dall'arduino invece di usare il database, per garantire maggiore sicurezza le informazioni sono visibili solo dopo aver digitato una password tramite terminale.
+Lo **stato del LED** (acceso/spento) viene trasmesso tramite **Wi-Fi** al server Django e registrato in un database con data e ora.
 
-Contro le tecniche di brute force, qualora fosse digitata per tre volte una password errata, il dispositivo emetterà un suono d'allarme e bloccherà ogni successivo tentativo di login.
+L’interfaccia web del server consente di visualizzare in tempo reale lo storico dei cambiamenti.
 
-Per sbloccare il processo di login, sarà necessario resettarlo manualmente girando la rotellina presente sul dispositivo.
+In alternativa, è possibile consultare lo stato corrente direttamente nel Serial Monitor, solo dopo aver superato un processo di autenticazione.
 
+##SICUREZZA
 
-## POSSIBILI SVILUPPI FUTURI
+- L'accesso ai dati locali traamite Serial Monitor è **protetto da password**
+- Dopo 3 tentativi errati, il sistema attiva un **buzzer di allarme** e blocca ulteriori inserimenti.
+- Il **reset** del blocco avviene manualmente ruotando il **potenziomentro**, che funge da meccanismo di sblocco
+- Sia la **soglia di sensibilità** che la **password** possono essere personalizzate nel codice
 
-Personalizzazione dinamica della soglia tramite interfaccia web o API.
+##COMUNICAZIONE CON IL SERVER
 
-Invio notifiche su dispositivi personali (tramite email, Telegram, ecc.).
-
-Storico dei dati con visualizzazione tramite grafici.
-
-## RAPPRESENTAZIONE DEL CIRCUITO
-
-![Circuito](circuit.png)
-
-## GUIDA AL DEBUGGING
-
-Nonostante tutti contatti di output presenti sull'ESP32 supportino la tecnologia analogica, solamente quelli compresi tra 32 e 37 supportano l'analogico con il WiFI.
-
-Per permettere la comunicazione tra l'arduino e il server Django è necessario disattivare il Firewall della macchina su cui si trova il server o, preferibilmente, impostare una regola specifica.
+- ESP32 invia eventi **HTTP POST** al server Django
+- Ogni evento viene registrato con **timestamp**
+- La **UI web** mostra lo storico degli stati del LED (accesso, spento)
 
 ## PREREQUISITI
 
@@ -84,4 +70,31 @@ Libreria Wi-Fi per ESP32 (inclusa nell'IDE Arduino)
 
 Conoscenze base di circuiti elettronici e programmazione embedded
 
-## GUIDA ALL'INSTALLAZIONE
+##GUIDA ALL'INSTALLAZIONE
+
+1. Clona questo repository
+2. Avvia il server Django (`python manage.py runserver`)
+3. Collega l’ESP32 alla stessa rete WIFI del server
+4. Carica il firmware sull'ESP32 tramite Arduino IDE
+5. Imposta soglia e password all'interno del codice o via terminale
+
+## RAPPRESENTAZIONE DEL CIRCUITO
+
+![Circuito](circuit.png)
+
+## GUIDA AL DEBUGGING
+
+- Sebbene molti pin dell’ESP32 supportino l’input analogico, solo quelli tra 32 e 39 funzionano correttamente durante l’uso del modulo Wi-Fi. Assicurati che il fotoresistore sia collegato a uno di questi.
+
+- Per permettere la comunicazione tra l’ESP32 e il server Django, disattiva temporaneamente il firewall della macchina oppure autorizza la porta usata dal server (default: 8000).
+
+## FOTO DEL RISULTATO FINALE
+![Arduino](Foto_Arduino.jpg)
+
+## POSSIBILI SVILUPPI FUTURI
+
+- Personalizzazione dinamica della soglia tramite interfaccia web o API.
+
+- Invio notifiche su dispositivi personali (tramite email, Telegram, ecc.).
+
+- Storico degli eventi visualizzati tramite grafici interattivi
