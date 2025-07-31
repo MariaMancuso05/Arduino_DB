@@ -12,7 +12,7 @@ def receive_light_data(request):
             data = json.loads(request.body)
             
             # Estrai stato dal messaggio
-            stato = data.get('stato')  # 'accesa' o 'spenta'
+            stato = data.get('stato')  # 'acceso' o 'spento'
             
             # Crea nuovo evento
             evento = LightEvent.objects.create(
@@ -76,14 +76,15 @@ def dashboard_data(request):
     eventi = LightEvent.objects.all()[:20]
     stato_corrente = LightStatus.objects.first()
     
+    # IMPORTANTE: Usa timezone.localtime() per convertire da UTC a Europe/Rome
     eventi_data = [{
         'stato': e.get_stato_display(),
-        'timestamp': e.timestamp.strftime('%d/%m/%Y %H:%M:%S'),
+        'timestamp': timezone.localtime(e.timestamp).strftime('%d/%m/%Y %H:%M:%S'),
     } for e in eventi]
     
     return JsonResponse({
         'is_on': stato_corrente.is_on if stato_corrente else False,
-        'ultimo_cambio': stato_corrente.ultimo_cambio.strftime('%d/%m/%Y %H:%M:%S') if stato_corrente else None,
+        'ultimo_cambio': timezone.localtime(stato_corrente.ultimo_cambio).strftime('%d/%m/%Y %H:%M:%S') if stato_corrente else None,
         'totale_accensioni': LightEvent.objects.filter(stato='acceso').count(),
         'totale_spegnimenti': LightEvent.objects.filter(stato='spento').count(),
         'eventi': eventi_data

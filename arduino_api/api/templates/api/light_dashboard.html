@@ -1,73 +1,754 @@
 <!DOCTYPE html>
-<html>
+<html lang="it">
 <head>
-    <title>Dashboard Luce</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Controllo Luce</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        .status { padding: 20px; margin: 20px 0; border-radius: 5px; }
-        .on { background-color: #ffffcc; }
-        .off { background-color: #e0e0e0; }
-        table { border-collapse: collapse; width: 100%; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; }
-        .live-indicator { color: #00ff00; animation: blink 1s infinite; }
-        @keyframes blink { 50% { opacity: 0; } }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        /* Animated background particles */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(255, 119, 48, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(120, 119, 198, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(255, 119, 48, 0.05) 0%, transparent 50%);
+            z-index: -1;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(-20px, -20px) rotate(1deg); }
+            66% { transform: translate(20px, -10px) rotate(-1deg); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff 0%, #8b92ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 20px rgba(139, 146, 255, 0.5)); }
+            to { filter: drop-shadow(0 0 30px rgba(139, 146, 255, 0.8)); }
+        }
+
+        .live-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0, 255, 127, 0.1);
+            border: 1px solid rgba(0, 255, 127, 0.3);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            position: absolute;
+            top: -10px;
+            right: 20px;
+        }
+
+        .live-dot {
+            width: 12px;
+            height: 12px;
+            background: #00ff7f;
+            border-radius: 50%;
+            animation: pulse 1.5s ease-in-out infinite;
+            box-shadow: 0 0 20px rgba(0, 255, 127, 0.6);
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Status Card */
+        .status-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 40px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .status-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .status-card.on {
+            background: linear-gradient(135deg, rgba(255, 193, 7, 0.1) 0%, rgba(255, 235, 59, 0.05) 100%);
+            border-color: rgba(255, 193, 7, 0.3);
+        }
+
+        .status-card.on::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 235, 59, 0.1) 0%, transparent 70%);
+            animation: rotate 10s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Circuit System */
+        .circuit-system {
+            width: 100%;
+            max-width: 500px;
+            height: 150px;
+            margin: 0 auto 30px;
+            position: relative;
+        }
+
+        /* Cavi */
+        .wire {
+            position: absolute;
+            height: 6px;
+            background: #333;
+            top: 50%;
+            transform: translateY(-50%);
+            border-radius: 3px;
+            transition: all 0.5s ease;
+        }
+
+        .wire-1 {
+            left: 20px;
+            width: 120px;
+        }
+
+        .wire-2 {
+            left: 220px;
+            width: 180px;
+        }
+
+        /* Cavo con corrente */
+        .status-card.on .wire {
+            background: linear-gradient(90deg, 
+                #444 0%, 
+                #ffc107 25%, 
+                #ffeb3b 50%, 
+                #ffc107 75%, 
+                #444 100%);
+            box-shadow: 0 0 10px rgba(255, 193, 7, 0.4);
+            animation: electric-flow 2s linear infinite;
+        }
+
+        @keyframes electric-flow {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+
+        /* Presa */
+        .power-socket {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 60px;
+            height: 80px;
+            background: #2a2a3e;
+            border-radius: 10px;
+            box-shadow: 
+                inset 0 2px 5px rgba(0, 0, 0, 0.5),
+                0 4px 10px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .socket-hole {
+            width: 8px;
+            height: 20px;
+            background: #111;
+            border-radius: 4px;
+        }
+
+        .socket-holes {
+            display: flex;
+            gap: 15px;
+        }
+
+        .status-card.on .socket-hole {
+            background: #222;
+            box-shadow: inset 0 0 5px rgba(255, 193, 7, 0.3);
+        }
+
+        /* Interruttore */
+        .switch-box {
+            position: absolute;
+            left: 140px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 80px;
+            height: 80px;
+            background: #2a2a3e;
+            border-radius: 12px;
+            box-shadow: 
+                0 6px 20px rgba(0, 0, 0, 0.4),
+                inset 0 1px 3px rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .switch-box:hover {
+            transform: translateY(-50%) scale(1.05);
+        }
+
+        .switch-box:active {
+            transform: translateY(-50%) scale(0.95);
+        }
+
+        .switch-toggle {
+            width: 50px;
+            height: 30px;
+            background: #555;
+            border-radius: 15px;
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.4);
+        }
+
+        .switch-handle {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 24px;
+            height: 24px;
+            background: #888;
+            border-radius: 50%;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 
+                0 2px 5px rgba(0, 0, 0, 0.3),
+                inset 0 1px 2px rgba(255, 255, 255, 0.2);
+        }
+
+        .status-card.on .switch-toggle {
+            background: rgba(255, 193, 7, 0.3);
+            box-shadow: 
+                inset 0 0 10px rgba(255, 193, 7, 0.5),
+                0 0 20px rgba(255, 193, 7, 0.2);
+        }
+
+        .status-card.on .switch-handle {
+            left: 23px;
+            background: #ffc107;
+            box-shadow: 
+                0 0 15px rgba(255, 193, 7, 0.8),
+                0 2px 5px rgba(0, 0, 0, 0.3),
+                inset 0 1px 2px rgba(255, 255, 255, 0.4);
+        }
+
+        /* Lampadina */
+        .light-bulb {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100px;
+            height: 100px;
+        }
+
+        .bulb {
+            width: 80px;
+            height: 80px;
+            background: #1a1a2e;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            position: relative;
+            margin: 0 auto;
+            transition: all 0.5s ease;
+            box-shadow: 
+                0 5px 20px rgba(0, 0, 0, 0.5),
+                inset 0 -5px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .bulb-base {
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 35px;
+            height: 25px;
+            background: #333;
+            border-radius: 0 0 5px 5px;
+            box-shadow: 
+                inset 0 -2px 5px rgba(0, 0, 0, 0.5),
+                0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .bulb-base::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 25px;
+            height: 5px;
+            background: #222;
+            border-radius: 2px;
+        }
+
+        /* Filamento */
+        .filament {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            opacity: 0.3;
+            transition: all 0.5s ease;
+        }
+
+        .filament::before,
+        .filament::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 30px;
+            height: 3px;
+            background: #555;
+            border-radius: 2px;
+        }
+
+        .filament::after {
+            transform: translate(-50%, -50%) rotate(90deg);
+        }
+
+        /* Stato acceso della lampadina */
+        .status-card.on .bulb {
+            background: radial-gradient(circle at 30% 30%, #fff8dc, #ffd700);
+            box-shadow: 
+                0 0 80px rgba(255, 215, 0, 0.8),
+                0 0 120px rgba(255, 193, 7, 0.6),
+                inset 0 0 20px rgba(255, 255, 255, 0.5);
+            animation: glow-bulb 2s ease-in-out infinite alternate;
+        }
+
+        .status-card.on .filament {
+            opacity: 1;
+        }
+
+        .status-card.on .filament::before,
+        .status-card.on .filament::after {
+            background: #fff;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.9);
+            width: 35px;
+            height: 4px;
+        }
+
+        @keyframes glow-bulb {
+            0% { 
+                filter: brightness(1);
+                transform: scale(1);
+            }
+            100% { 
+                filter: brightness(1.1);
+                transform: scale(1.02);
+            }
+        }
+
+        /* Alone di luce */
+        .light-aura {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: radial-gradient(circle, 
+                rgba(255, 215, 0, 0.4) 0%, 
+                rgba(255, 193, 7, 0.2) 30%, 
+                transparent 70%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+        }
+
+        .status-card.on .light-aura {
+            opacity: 1;
+            animation: pulse-aura 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse-aura {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.2); }
+        }
+
+        /* Status Text */
+        .status-text {
+            font-size: 2rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .status-time {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1rem;
+            text-align: center;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(139, 146, 255, 0.5);
+        }
+
+        .stat-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(139, 146, 255, 0.8), transparent);
+            animation: scan 3s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffc107 0%, #ff6b6b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Events Table */
+        .events-container {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 25px;
+            overflow: hidden;
+        }
+
+        .events-header {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .events-header::before {
+            content: '📊';
+            font-size: 1.8rem;
+        }
+
+        .events-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 8px;
+        }
+
+        .events-table th {
+            background: rgba(139, 146, 255, 0.1);
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            color: rgba(255, 255, 255, 0.8);
+            border: none;
+        }
+
+        .events-table th:first-child {
+            border-top-left-radius: 8px;
+            border-bottom-left-radius: 8px;
+        }
+
+        .events-table th:last-child {
+            border-top-right-radius: 8px;
+            border-bottom-right-radius: 8px;
+        }
+
+        .events-table td {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 12px 15px;
+            border: none;
+            transition: all 0.2s ease;
+        }
+
+        .events-table tr:hover td {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateX(5px);
+        }
+
+        .events-table td:first-child {
+            border-top-left-radius: 8px;
+            border-bottom-left-radius: 8px;
+        }
+
+        .events-table td:last-child {
+            border-top-right-radius: 8px;
+            border-bottom-right-radius: 8px;
+        }
+
+        .event-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .event-status.acceso {
+            background: rgba(255, 193, 7, 0.2);
+            color: #ffc107;
+        }
+
+        .event-status.spento {
+            background: rgba(108, 117, 125, 0.2);
+            color: #6c757d;
+        }
+
+        .event-time {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+        /* Loading animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            border-top-color: #8b92ff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .circuit-system {
+                transform: scale(0.8);
+                height: 120px;
+            }
+            
+            .status-text {
+                font-size: 1.5rem;
+            }
+            
+            .live-indicator {
+                position: static;
+                margin-top: 10px;
+            }
+        }
     </style>
 </head>
 <body>
-    <h1>Dashboard Controllo Luce <span class="live-indicator">● LIVE</span></h1>
-    
-    <div id="status-container">
-        <!-- Questo verrà aggiornato via AJAX -->
-    </div>
-    
-    <div id="stats-container">
-        <!-- Statistiche -->
-    </div>
-    
-    <h3>Ultimi Eventi</h3>
-    <div id="events-container">
-        <!-- Tabella eventi -->
+    <div class="container">
+        <div class="header">
+            <h1>Dashboard Controllo Luce</h1>
+            <div class="live-indicator">
+                <div class="live-dot"></div>
+                <span>LIVE</span>
+            </div>
+        </div>
+        
+        <div id="status-container">
+            <div class="loading"></div>
+        </div>
+        
+        <div id="stats-container" class="stats-grid">
+            <div class="loading"></div>
+        </div>
+        
+        <div class="events-container">
+            <h3 class="events-header">Ultimi Eventi</h3>
+            <div id="events-container">
+                <div class="loading"></div>
+            </div>
+        </div>
     </div>
 
     <script>
+        function formatEventStatus(stato) {
+            return `<span class="event-status ${stato}">${stato === 'acceso' ? '💡 Acceso' : '⚫ Spento'}</span>`;
+        }
+
         function updateDashboard() {
             fetch('/api/dashboard-data/')
                 .then(response => response.json())
                 .then(data => {
-                    // Aggiorna stato
-                    document.getElementById('status-container').innerHTML = `
-                        <div class="status ${data.is_on ? 'on' : 'off'}">
-                            <h2>Stato Attuale: ${data.is_on ? '💡 ACCESA' : '⚫ SPENTA'}</h2>
-                            <p>Ultimo cambio: ${data.ultimo_cambio}</p>
+                    // Aggiorna stato con il nuovo circuito
+                    const statusContainer = document.getElementById('status-container');
+                    const isOn = data.is_on;
+                    
+                    statusContainer.innerHTML = `
+                        <div class="status-card ${isOn ? 'on' : 'off'}">
+                            <div class="circuit-system">
+                                <!-- Presa elettrica -->
+                                <div class="power-socket">
+                                    <div class="socket-holes">
+                                        <div class="socket-hole"></div>
+                                        <div class="socket-hole"></div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Cavi -->
+                                <div class="wire wire-1"></div>
+                                <div class="wire wire-2"></div>
+                                
+                                <!-- Interruttore -->
+                                <div class="switch-box">
+                                    <div class="switch-toggle">
+                                        <div class="switch-handle"></div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Lampadina -->
+                                <div class="light-bulb">
+                                    <div class="light-aura"></div>
+                                    <div class="bulb">
+                                        <div class="filament"></div>
+                                        <div class="bulb-base"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="status-text">Luce ${isOn ? 'ACCESA' : 'SPENTA'}</div>
+                            <div class="status-time">Ultimo cambio: ${data.ultimo_cambio}</div>
                         </div>
                     `;
                     
                     // Aggiorna statistiche
                     document.getElementById('stats-container').innerHTML = `
-                        <h3>Statistiche</h3>
-                        <p>Totale accensioni: ${data.totale_accensioni}</p>
-                        <p>Totale spegnimenti: ${data.totale_spegnimenti}</p>
+                        <div class="stat-card">
+                            <div class="stat-value">${data.totale_accensioni}</div>
+                            <div class="stat-label">Accensioni Totali</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">${data.totale_spegnimenti}</div>
+                            <div class="stat-label">Spegnimenti Totali</div>
+                        </div>
                     `;
                     
                     // Aggiorna eventi
-                    let eventsHtml = '<table><tr><th>Stato</th><th>Data/Ora</th></tr>';
+                    let eventsHtml = '<table class="events-table"><tr><th>Stato</th><th>Data/Ora</th></tr>';
                     data.eventi.forEach(evento => {
                         eventsHtml += `
                             <tr>
-                                <td>${evento.stato}</td>
-                                <td>${evento.timestamp}</td>
+                                <td>${formatEventStatus(evento.stato)}</td>
+                                <td class="event-time">${evento.timestamp}</td>
                             </tr>
                         `;
                     });
                     eventsHtml += '</table>';
                     document.getElementById('events-container').innerHTML = eventsHtml;
+                })
+                .catch(error => {
+                    console.error('Errore nel caricamento dei dati:', error);
                 });
         }
         
-        // Aggiorna ogni 2 secondi
+        // Carica i dati iniziali
         updateDashboard();
-        setInterval(updateDashboard, 50);
+        
+        // Aggiorna ogni 500ms (mezzo secondo)
+        setInterval(updateDashboard, 500);
     </script>
 </body>
 </html>
