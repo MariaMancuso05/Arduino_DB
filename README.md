@@ -6,7 +6,7 @@ Realizzare un dispositivo in grado di rilevare **variazioni** nella **luminosit�
 
 Il progetto integra **componenti elettronici** con una **piattaforma web** per la visualizzazione degli eventi registrati. L’utente può **personalizzare** la soglia di sensibilità alla luce e la password di accesso.
 
-##COMPONENTI UTILIZZATI
+## COMPONENTI UTILIZZATI
 
 - x1 Bread board
 
@@ -49,14 +49,14 @@ L’interfaccia web del server consente di visualizzare in tempo reale lo storic
 
 In alternativa, è possibile consultare lo stato corrente direttamente nel Serial Monitor, solo dopo aver superato un processo di autenticazione.
 
-##SICUREZZA
+## SICUREZZA
 
 - L'accesso ai dati locali traamite Serial Monitor è **protetto da password**
 - Dopo 3 tentativi errati, il sistema attiva un **buzzer di allarme** e blocca ulteriori inserimenti.
 - Il **reset** del blocco avviene manualmente ruotando il **potenziomentro**, che funge da meccanismo di sblocco
 - Sia la **soglia di sensibilità** che la **password** possono essere personalizzate nel codice
 
-##COMUNICAZIONE CON IL SERVER
+## COMUNICAZIONE CON IL SERVER
 
 - ESP32 invia eventi **HTTP POST** al server Django
 - Ogni evento viene registrato con **timestamp**
@@ -70,7 +70,7 @@ Libreria Wi-Fi per ESP32 (inclusa nell'IDE Arduino)
 
 Conoscenze base di circuiti elettronici e programmazione embedded
 
-##GUIDA ALL'INSTALLAZIONE
+## GUIDA ALL'INSTALLAZIONE
 
 1. Clona questo repository
 2. Avvia il server Django (`python manage.py runserver`)
